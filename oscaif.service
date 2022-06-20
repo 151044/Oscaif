@@ -1,0 +1,7 @@
+[Unit]
+Description="Oscaif Bot"
+
+[Service]
+Type=Simple
+ExecStart=/usr/bin/java -jar /opt/oscaif/Oscaif-0.1.0.jar
+Restart=always

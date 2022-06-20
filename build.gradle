@@ -1,0 +1,40 @@
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven {
+        name 'm2-dv8tion'
+        url 'https://m2.dv8tion.net/releases'
+    }
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    implementation("net.dv8tion:JDA:4.3.0_277") {
+        exclude module: 'opus-java'
+    }
+    implementation 'com.google.code.gson:gson:2.9.0'
+
+}
+
+test {
+    useJUnitPlatform()
+}
+task clientJar(type:Jar,dependsOn:assemble){
+    //noinspection GrDeprecatedAPIUsage
+    baseName = 'Oscaif'
+    manifest{
+        attributes 'Main-Class':'com.s151044.discord.oscaif.Main'
+    }
+    //noinspection GrDeprecatedAPIUsage
+    version = '0.1.0'
+    from { configurations.archives.artifacts.files.collect { zipTree(it) } }
+    from { configurations.runtimeClasspath.toSet().collect { it.isDirectory() ?  it : zipTree(it) } }
+    with jar
+}
