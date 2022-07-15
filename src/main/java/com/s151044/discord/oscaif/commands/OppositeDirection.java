@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Random;
 
 public class OppositeDirection implements Command{
-    private static final int MAX_LENGTH = 400;
+    private static final int MAX_LENGTH = 200;
     private Random rand = new Random();
     @Override
     public void action(GuildMessageReceivedEvent evt, String callName, String arguments) {
