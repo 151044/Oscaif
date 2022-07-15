@@ -9,7 +9,7 @@ import java.util.List;
 public class Shutdown implements Command {
     @Override
     public void action(GuildMessageReceivedEvent evt, String callName, String arguments) {
-        if(evt.getAuthor().getId().equals(System.getenv("OWNER_ID"))){
+        if(Main.isOwner(evt)){
             Main.shutdown();
         } else {
             Messages.sendMessage(evt, "You're not authorized to use this command.");

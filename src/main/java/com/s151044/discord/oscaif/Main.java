@@ -1,6 +1,5 @@
 package com.s151044.discord.oscaif;
 
-import com.google.gson.Gson;
 import com.s151044.discord.oscaif.commands.*;
 import com.s151044.discord.oscaif.commands.map.ListMap;
 import com.s151044.discord.oscaif.commands.map.MapToMessage;
@@ -12,14 +11,10 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import javax.security.auth.login.LoginException;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Main {
@@ -72,5 +67,8 @@ public class Main {
         StringBuilder sb = new StringBuilder();
         toUrl.forEach((key, value) -> sb.append(key).append("\t").append(value).append("\n"));
         tags.editMessage(sb.toString()).complete();
+    }
+    public static boolean isOwner(GuildMessageReceivedEvent evt){
+        return evt.getAuthor().getId().equals(System.getenv("OWNER_ID"));
     }
 }
