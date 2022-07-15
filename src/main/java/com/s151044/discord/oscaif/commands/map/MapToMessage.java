@@ -3,20 +3,22 @@ package com.s151044.discord.oscaif.commands.map;
 import com.s151044.discord.oscaif.Main;
 import com.s151044.discord.oscaif.commands.Command;
 import com.s151044.discord.oscaif.utils.Messages;
+import com.s151044.discord.oscaif.utils.ratelimit.LimitedExecutor;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class MapToMessage implements Command {
     private Map<String, String> toUrl;
-
-    public MapToMessage(Map<String, String> toUrl){
-        this.toUrl = toUrl;
-    }
-    @Override
-    public void action(GuildMessageReceivedEvent evt, String callName, String arguments) {
+    private Message refMsg;
+    private GuildMessageReceivedEvent evt;
+    private String arguments;
+    private LimitedExecutor executor = new LimitedExecutor(10, TimeUnit.MINUTES, () -> {
         Message refMsg = evt.getMessage().getReferencedMessage();
         String keyword = arguments;
         if(keyword.isEmpty()){
@@ -35,6 +37,22 @@ public class MapToMessage implements Command {
             Messages.sendMessage(evt, "Please reference a message.");
         }
         Main.flushMessage();
+    });
+
+    public MapToMessage(Map<String, String> toUrl){
+        this.toUrl = toUrl;
+    }
+    @Override
+    public void action(GuildMessageReceivedEvent evt, String callName, String arguments) {
+        long delayMs = executor.getDelay(TimeUnit.MILLISECONDS);
+        if (delayMs > 0) {
+            Messages.sendMessage(evt, "The mapping action is on delay. Time left: " + Messages.toTime(delayMs));
+        } else {
+            this.evt = evt;
+            this.refMsg = evt.getMessage().getReferencedMessage();
+            this.arguments = arguments;
+            executor.queueExecution();
+        }
     }
 
     @Override
