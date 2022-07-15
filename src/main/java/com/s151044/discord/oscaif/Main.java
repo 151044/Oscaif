@@ -1,5 +1,6 @@
 package com.s151044.discord.oscaif;
 
+import com.google.gson.Gson;
 import com.s151044.discord.oscaif.commands.*;
 import com.s151044.discord.oscaif.commands.map.ListMap;
 import com.s151044.discord.oscaif.commands.map.MapToMessage;
