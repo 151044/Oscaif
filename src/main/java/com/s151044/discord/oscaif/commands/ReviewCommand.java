@@ -6,12 +6,19 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import java.util.List;
 
 public class ReviewCommand implements Command{
+    private static final int MAX_LENGTH = 20;
     @Override
     public void action(GuildMessageReceivedEvent evt, String callName, String arguments) {
         if(arguments.isEmpty()){
             Messages.sendMessage(evt, "Please specify a course name.");
+            return;
         }
-        Messages.sendMessage(evt, "https://ust.space/review/" + arguments.replace(" ",""));
+        if(arguments.length() > MAX_LENGTH){
+            Messages.sendMessage(evt, "Course name is too long.");
+            return;
+        }
+        Messages.sendMessage(evt, "https://ust.space/review/" + arguments.replace(" ","")
+                .replace("\n", ""));
     }
 
     @Override
