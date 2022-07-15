@@ -3,17 +3,19 @@ package com.s151044.discord.oscaif.commands;
 import com.s151044.discord.oscaif.Main;
 import com.s151044.discord.oscaif.utils.EmbedHelper;
 import com.s151044.discord.oscaif.utils.Messages;
+import com.s151044.discord.oscaif.utils.ratelimit.LimitedExecutor;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 public class OppositeDirection implements Command{
     private static final int MAX_LENGTH = 200;
     private Random rand = new Random();
-    @Override
-    public void action(GuildMessageReceivedEvent evt, String callName, String arguments) {
-        String toOppose = arguments;
+    private String toOppose;
+    private GuildMessageReceivedEvent evt;
+    private LimitedExecutor executor = new LimitedExecutor(5, TimeUnit.SECONDS, () -> {
         if(toOppose.length() > MAX_LENGTH && !Main.isOwner(evt)){
             Messages.sendMessage(evt, "Message too long!");
             return;
@@ -31,6 +33,18 @@ public class OppositeDirection implements Command{
             build.append(" > ");
         }
         EmbedHelper.getLongEmbed(build.toString()).forEach(emb -> Messages.sendMessage(evt, emb));
+    });
+    @Override
+    public void action(GuildMessageReceivedEvent evt, String callName, String arguments) {
+        long delayMs = executor.getDelay(TimeUnit.MILLISECONDS);
+        if(delayMs > 0) {
+            Messages.sendMessage(evt, "The 5B bus went too fast! Please wait for " + Messages.toTime(delayMs)
+                    + " before trying this again.");
+        } else {
+            toOppose = arguments;
+            this.evt = evt;
+            executor.queueExecution();
+        }
     }
 
     @Override
