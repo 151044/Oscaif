@@ -7,6 +7,7 @@ import com.s151044.discord.oscaif.commands.map.MapToMessage;
 import com.s151044.discord.oscaif.commands.map.RecallCommand;
 import com.s151044.discord.oscaif.commands.map.ReplaceMap;
 import com.s151044.discord.oscaif.handlers.MessageHandler;
+import com.s151044.discord.oscaif.utils.Messages;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Message;
@@ -39,12 +40,16 @@ public class Main {
         //Hardcoding
         TextChannel channel = jda.getGuildById("758326787129737226").getTextChannelById("982147954351685632");
         tags = channel.retrieveMessageById(channel.getLatestMessageId()).complete();
-        for(String s :tags.getContentRaw().split("\n")){
+        for(String s : tags.getContentRaw().split("\n")){
             String[] entry = s.split("\t");
             if(s.isEmpty() || entry.length < 2){
                 continue;
             }
             toUrl.put(entry[0], entry[1]);
+        }
+        if(!tags.getAuthor().isBot()){
+            Messages.sendMessage(tags, tags.getContentRaw());
+            tags = channel.retrieveMessageById(channel.getLatestMessageId()).complete();
         }
 
         cmd.addCommand(new OppositeDirection());
