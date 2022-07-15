@@ -1,0 +1,6 @@
+.gradle
+.idea
+build
+deploy
+deploy.sh
+test
