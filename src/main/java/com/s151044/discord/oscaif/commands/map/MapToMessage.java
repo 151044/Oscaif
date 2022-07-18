@@ -17,16 +17,8 @@ public class MapToMessage implements Command {
     private GuildMessageReceivedEvent evt;
     private String arguments;
     private LimitedExecutor executor = new LimitedExecutor(10, TimeUnit.MINUTES, () -> {
-        Message refMsg = evt.getMessage().getReferencedMessage();
+        refMsg = evt.getMessage().getReferencedMessage();
         String keyword = arguments;
-        if(keyword.isEmpty()){
-            Messages.sendMessage(evt, "Please enter a keyword.");
-            return;
-        }
-        if(toUrl.containsKey(keyword)){
-            Messages.sendMessage(evt, "Keyword " + keyword + " exists. Remove with the &remove command first.");
-            return;
-        }
         if(refMsg != null){
             String jumpUrl = refMsg.getJumpUrl();
             toUrl.put(keyword, jumpUrl);
@@ -43,6 +35,14 @@ public class MapToMessage implements Command {
     @Override
     public void action(GuildMessageReceivedEvent evt, String callName, String arguments) {
         long delayMs = executor.getDelay(TimeUnit.MILLISECONDS);
+        if(arguments.isEmpty()){
+            Messages.sendMessage(evt, "Please enter a keyword.");
+            return;
+        }
+        if(toUrl.containsKey(arguments)){
+            Messages.sendMessage(evt, "Keyword " + arguments + " exists. Remove with the &remove command first.");
+            return;
+        }
         if (delayMs > 0) {
             Messages.sendMessage(evt, "The mapping action is on delay. Time left: " + Messages.toTime(delayMs));
         } else {

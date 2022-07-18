@@ -40,10 +40,12 @@ public class Main {
             if(s.isEmpty() || entry.length < 2){
                 continue;
             }
-            toUrl.put(entry[0], entry[1]);
+            toUrl.put(entry[0].trim(), entry[1].trim());
         }
         if(!tags.getAuthor().isBot()){
-            Messages.sendMessage(tags, tags.getContentRaw());
+            StringBuilder sb = new StringBuilder();
+            toUrl.forEach((key, value) -> sb.append(key).append("\t").append(value).append("\n"));
+            Messages.sendMessage(tags, sb.toString());
             tags = channel.retrieveMessageById(channel.getLatestMessageId()).complete();
         }
 
