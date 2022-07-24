@@ -59,6 +59,7 @@ public class Main {
         cmd.addCommand(new GoopRetriever());
         cmd.addCommand(new Shutdown());
         cmd.addCommand(new ReviewCommand());
+        cmd.addCommand(new SyllabusCommand());
 
     }
     public static void shutdown(){
