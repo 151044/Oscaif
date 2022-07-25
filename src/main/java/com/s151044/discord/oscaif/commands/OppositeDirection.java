@@ -33,7 +33,11 @@ public class OppositeDirection implements Command{
             build.append(" (Opposite direction)");
             build.append(" > ");
         }
-        EmbedHelper.getLongEmbed(build.toString()).forEach(emb -> Messages.sendMessage(evt, emb));
+        String toEmbed = build.toString();
+        if(toEmbed.trim().startsWith(">")){
+            toEmbed = "\\" + toEmbed.trim();
+        }
+        EmbedHelper.getLongEmbed(toEmbed).forEach(emb -> Messages.sendMessage(evt, emb));
     });
     @Override
     public void action(MessageReceivedEvent evt, String callName, String arguments) {

@@ -34,8 +34,12 @@ public class ContextDirection {
             build.append(" > ");
         }
         InteractionHook hook = evt.getHook();
+        String toEmbed = build.toString();
+        if(toEmbed.trim().startsWith(">")){
+            toEmbed = "\\" + toEmbed.trim();
+        }
         // I *know* this is inefficient, but apparently I can't send multiple embeds after a deferred reply
-        EmbedHelper.getLongEmbed(build.toString()).forEach(emb -> hook.sendMessageEmbeds(emb).queue());
+        EmbedHelper.getLongEmbed(toEmbed).forEach(emb -> hook.sendMessageEmbeds(emb).queue());
     });
     public void handleMessage(MessageContextInteractionEvent event){
         long delayMs = executor.getDelay(TimeUnit.MILLISECONDS);
