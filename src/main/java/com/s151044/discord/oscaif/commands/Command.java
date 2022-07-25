@@ -12,8 +12,8 @@ public interface Command {
      * The function that is called on a message sent by anyone in a guild.
      *
      * @param evt       The message received event
-     * @param callName
-     * @param arguments
+     * @param callName  The string used to invoke the command
+     * @param arguments The arguments trailing the command word
      */
     void action(GuildMessageReceivedEvent evt, String callName, String arguments);
 

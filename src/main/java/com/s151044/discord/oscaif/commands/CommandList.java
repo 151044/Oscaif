@@ -22,7 +22,7 @@ public class CommandList {
         if(commandMap.containsKey(byName)){
             return Optional.of(commandMap.get(byName));
         }
-        if(aliasMap.keySet().stream().flatMap(list -> list.stream()).anyMatch(str -> str.equals(byName))){
+        if(aliasMap.keySet().stream().flatMap(Collection::stream).anyMatch(str -> str.equals(byName))){
             return Optional.of(commandMap.get(aliasMap.entrySet().stream().filter(ent -> ent.getKey().contains(byName)).findFirst().map(ent -> ent.getValue()).get()));
         }else{
             return Optional.empty();
@@ -41,7 +41,7 @@ public class CommandList {
         return List.copyOf(commandMap.values());
     }
 
-    public int getLength(){
+    public int getSize(){
         return commandMap.size();
     }
 }
