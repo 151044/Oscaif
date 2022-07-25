@@ -3,7 +3,7 @@ package com.s151044.discord.oscaif.commands.map;
 import com.s151044.discord.oscaif.commands.Command;
 import com.s151044.discord.oscaif.utils.EmbedHelper;
 import com.s151044.discord.oscaif.utils.Messages;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.List;
 import java.util.Map;
@@ -16,7 +16,7 @@ public class ListMap implements Command {
         this.toUrl = toUrl;
     }
     @Override
-    public void action(GuildMessageReceivedEvent evt, String callName, String arguments) {
+    public void action(MessageReceivedEvent evt, String callName, String arguments) {
         StringBuilder sb = new StringBuilder();
         toUrl.forEach((key, value) -> sb.append(key).append("\n"));
         Messages.sendMessage(evt, EmbedHelper.getEmbed(sb.toString(), "Available Mappings:"));

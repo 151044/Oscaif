@@ -4,7 +4,8 @@ import com.google.gson.*;
 import com.s151044.discord.oscaif.utils.EmbedHelper;
 import com.s151044.discord.oscaif.utils.Messages;
 import com.s151044.discord.oscaif.utils.ratelimit.LimitedExecutor;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+
 
 import java.io.IOException;
 import java.net.URI;
@@ -28,7 +29,7 @@ public class GoopRetriever implements Command {
         refreshTimer.scheduleAtFixedRate(() -> executor.queueExecution(), 0, 15, TimeUnit.MINUTES);
     }
     @Override
-    public void action(GuildMessageReceivedEvent evt, String callName, String arguments) {
+    public void action(MessageReceivedEvent evt, String callName, String arguments) {
         if(arguments.equals("refresh")) {
             long delayMs = executor.getDelay(TimeUnit.MILLISECONDS);
             if (delayMs > 0) {

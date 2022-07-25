@@ -1,16 +1,16 @@
 package com.s151044.discord.oscaif.commands;
 
 import com.s151044.discord.oscaif.utils.Messages;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-import java.util.Arrays;
+
 import java.util.List;
 public class SyllabusCommand implements Command{
     private static final String BASE = "http://ugadmin.ust.hk/prog_crs/ug/202223/pdf/22-23";
     private static final String BASE_MINOR = "http://ugadmin.ust.hk/prog_crs/ug/202223/pdf/minor-";
 
     @Override
-    public void action(GuildMessageReceivedEvent evt, String callName, String arguments) {
+    public void action(MessageReceivedEvent evt, String callName, String arguments) {
          String[] args = arguments.split(" ");
          if(args[0].equals("")) {
              Messages.sendMessage(evt, "Please enter the program shorthand.");

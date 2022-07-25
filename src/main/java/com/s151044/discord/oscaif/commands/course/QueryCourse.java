@@ -1,13 +1,14 @@
 package com.s151044.discord.oscaif.commands.course;
 
 import com.s151044.discord.oscaif.commands.Command;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+
 
 import java.util.List;
 
 public class QueryCourse implements Command {
     @Override
-    public void action(GuildMessageReceivedEvent evt, String callName, String arguments) {
+    public void action(MessageReceivedEvent evt, String callName, String arguments) {
 
     }
 

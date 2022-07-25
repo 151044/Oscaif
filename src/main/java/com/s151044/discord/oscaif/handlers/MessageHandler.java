@@ -4,7 +4,7 @@ import com.s151044.discord.oscaif.commands.Command;
 import com.s151044.discord.oscaif.commands.CommandList;
 import com.s151044.discord.oscaif.utils.EmbedHelper;
 import com.s151044.discord.oscaif.utils.Messages;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,8 +32,10 @@ public class MessageHandler extends ListenerAdapter {
         this.prefix = prefix;
         this.list = list;
     }
+
+
     @Override
-    public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent event) {
+    public void onMessageReceived(@NotNull MessageReceivedEvent event) {
         String msg = event.getMessage().getContentRaw();
         if(event.getAuthor().isBot()){
             return;
@@ -60,7 +62,7 @@ public class MessageHandler extends ListenerAdapter {
         get.get().action(event, first, args);
     }
 
-    private void handleHelp(@NotNull GuildMessageReceivedEvent event, String args) {
+    private void handleHelp(@NotNull MessageReceivedEvent event, String args) {
         if(args.equals("")){
             StringBuilder build = new StringBuilder();
             for(Command c: list.getCommands()){

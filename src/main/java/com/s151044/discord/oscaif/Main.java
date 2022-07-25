@@ -11,7 +11,8 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 
 import javax.security.auth.login.LoginException;
 import java.util.HashMap;
@@ -28,6 +29,7 @@ public class Main {
         CommandList cmd = new CommandList();
 
         jda = JDABuilder.createDefault(System.getenv("BOT_TOKEN"))
+                .enableIntents(GatewayIntent.MESSAGE_CONTENT)
                 .addEventListeners(new MessageHandler("&", cmd)).build();
         jda.awaitReady();
 
@@ -71,7 +73,7 @@ public class Main {
         toUrl.forEach((key, value) -> sb.append(key).append("\t").append(value).append("\n"));
         tags.editMessage(sb.toString()).complete();
     }
-    public static boolean isOwner(GuildMessageReceivedEvent evt){
+    public static boolean isOwner(MessageReceivedEvent evt){
         return evt.getAuthor().getId().equals(System.getenv("OWNER_ID"));
     }
 }

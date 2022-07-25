@@ -5,7 +5,7 @@ import com.s151044.discord.oscaif.commands.Command;
 import com.s151044.discord.oscaif.utils.Messages;
 import com.s151044.discord.oscaif.utils.ratelimit.LimitedExecutor;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.List;
 import java.util.Map;
@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 public class MapToMessage implements Command {
     private Map<String, String> toUrl;
     private Message refMsg;
-    private GuildMessageReceivedEvent evt;
+    private MessageReceivedEvent evt;
     private String arguments;
     private LimitedExecutor executor = new LimitedExecutor(10, TimeUnit.MINUTES, () -> {
         refMsg = evt.getMessage().getReferencedMessage();
@@ -33,7 +33,7 @@ public class MapToMessage implements Command {
         this.toUrl = toUrl;
     }
     @Override
-    public void action(GuildMessageReceivedEvent evt, String callName, String arguments) {
+    public void action(MessageReceivedEvent evt, String callName, String arguments) {
         long delayMs = executor.getDelay(TimeUnit.MILLISECONDS);
         if(arguments.isEmpty()){
             Messages.sendMessage(evt, "Please enter a keyword.");

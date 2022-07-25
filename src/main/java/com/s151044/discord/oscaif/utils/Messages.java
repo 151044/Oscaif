@@ -1,11 +1,9 @@
 package com.s151044.discord.oscaif.utils;
 
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.entities.emoji.RichCustomEmoji;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,8 +18,8 @@ public class Messages {
      * @param evt The message received event, from which a text channel can be derived
      * @param msg The message to send
      */
-    public static void sendMessage(GuildMessageReceivedEvent evt, String msg){
-        sendMessage(evt.getChannel(),msg);
+    public static void sendMessage(MessageReceivedEvent evt, String msg){
+        sendMessage(evt.getChannel().asTextChannel(),msg);
     }
 
     /**
@@ -52,7 +50,7 @@ public class Messages {
      * @param toSend The embed to send
      */
     public static void sendMessage(TextChannel text, MessageEmbed toSend){
-        text.sendMessage(toSend).queue();
+        text.sendMessageEmbeds(toSend).queue();
     }
 
     /**
@@ -61,12 +59,12 @@ public class Messages {
      * @param evt The message received event, from which a text channel can be derived
      * @param toSend The embed to send
      */
-    public static void sendMessage(GuildMessageReceivedEvent evt, MessageEmbed toSend){
-        sendMessage(evt.getChannel(),toSend);
+    public static void sendMessage(MessageReceivedEvent evt, MessageEmbed toSend){
+        sendMessage(evt.getChannel().asTextChannel(),toSend);
     }
 
     public static void sendMessage(Message reply, String content){
-        sendMessage(reply.getTextChannel(), content);
+        sendMessage(reply.getChannel().asTextChannel(), content);
     }
 
     /**
@@ -75,8 +73,8 @@ public class Messages {
      * @param retrieve The guild to get the emote for
      * @return An optional containing the emote if it can be found, or an empty optional otherwise
      */
-    public static Optional<Emote> getEmote(String name, Guild retrieve){
-        return retrieve.getEmotesByName(name,true).stream().findFirst();
+    public static Optional<RichCustomEmoji> getEmote(String name, Guild retrieve){
+        return retrieve.getEmojisByName(name,true).stream().findFirst();
     }
 
     /**

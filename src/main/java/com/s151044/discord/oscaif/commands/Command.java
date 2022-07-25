@@ -1,6 +1,6 @@
 package com.s151044.discord.oscaif.commands;
 
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public interface Command {
      * @param callName  The string used to invoke the command
      * @param arguments The arguments trailing the command word
      */
-    void action(GuildMessageReceivedEvent evt, String callName, String arguments);
+    void action(MessageReceivedEvent evt, String callName, String arguments);
 
     /**
      * Returns a list of aliases with which this command can be called by a message.
