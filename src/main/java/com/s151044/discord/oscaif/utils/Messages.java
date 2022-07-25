@@ -66,6 +66,9 @@ public class Messages {
     public static void sendMessage(Message reply, String content){
         sendMessage(reply.getChannel().asTextChannel(), content);
     }
+    public static void sendMessage(MessageChannel channel, MessageEmbed toSend){
+        channel.sendMessageEmbeds(toSend).queue();
+    }
 
     /**
      * Gets a emotes by its name for the specified guild.

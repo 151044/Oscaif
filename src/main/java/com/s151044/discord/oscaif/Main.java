@@ -1,6 +1,7 @@
 package com.s151044.discord.oscaif;
 
 import com.s151044.discord.oscaif.commands.*;
+import com.s151044.discord.oscaif.commands.interactions.ContextMenuHandler;
 import com.s151044.discord.oscaif.commands.map.ListMap;
 import com.s151044.discord.oscaif.commands.map.MapToMessage;
 import com.s151044.discord.oscaif.commands.map.RecallCommand;
@@ -9,8 +10,10 @@ import com.s151044.discord.oscaif.handlers.MessageHandler;
 import com.s151044.discord.oscaif.utils.Messages;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.events.interaction.command.MessageContextInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
@@ -30,7 +33,10 @@ public class Main {
 
         jda = JDABuilder.createDefault(System.getenv("BOT_TOKEN"))
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT)
-                .addEventListeners(new MessageHandler("&", cmd)).build();
+                .addEventListeners(
+                        new MessageHandler("&", cmd),
+                        new ContextMenuHandler())
+                .build();
         jda.awaitReady();
 
         toUrl = new HashMap<>();
@@ -62,6 +68,7 @@ public class Main {
         cmd.addCommand(new Shutdown());
         cmd.addCommand(new ReviewCommand());
         cmd.addCommand(new SyllabusCommand());
+        cmd.addCommand(new SetupInteractions());
 
     }
     public static void shutdown(){
@@ -75,5 +82,9 @@ public class Main {
     }
     public static boolean isOwner(MessageReceivedEvent evt){
         return evt.getAuthor().getId().equals(System.getenv("OWNER_ID"));
+    }
+    public static boolean isOwner(MessageContextInteractionEvent evt){
+        Member member = evt.getMember();
+        return member != null && member.getId().equals(System.getenv("OWNER_ID"));
     }
 }

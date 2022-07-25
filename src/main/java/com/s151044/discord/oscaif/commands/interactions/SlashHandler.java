@@ -1,4 +1,4 @@
-package com.s151044.discord.oscaif.commands.slash;
+package com.s151044.discord.oscaif.commands.interactions;
 
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
