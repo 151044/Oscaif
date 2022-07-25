@@ -5,6 +5,7 @@ import com.s151044.discord.oscaif.utils.EmbedHelper;
 import com.s151044.discord.oscaif.utils.Messages;
 import com.s151044.discord.oscaif.utils.ratelimit.LimitedExecutor;
 import net.dv8tion.jda.api.events.interaction.command.MessageContextInteractionEvent;
+import net.dv8tion.jda.api.interactions.InteractionHook;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -32,7 +33,9 @@ public class ContextDirection {
             build.append(" (Opposite direction)");
             build.append(" > ");
         }
-        evt.getHook().sendMessageEmbeds(EmbedHelper.getLongEmbed(build.toString())).queue();
+        InteractionHook hook = evt.getHook();
+        // I *know* this is inefficient, but apparently I can't send multiple embeds after a deferred reply
+        EmbedHelper.getLongEmbed(build.toString()).forEach(emb -> hook.sendMessageEmbeds(emb).queue());
     });
     public void handleMessage(MessageContextInteractionEvent event){
         long delayMs = executor.getDelay(TimeUnit.MILLISECONDS);
