@@ -38,7 +38,7 @@ public class MTRData {
         return lines.values().stream()
                 .map(Map::entrySet).flatMap(Collection::stream)
                 .filter(entry -> entry.getKey().equals(abbr))
-                .map(Map.Entry::getKey)
+                .map(Map.Entry::getValue)
                 .findFirst();
     }
     public Set<String> getStationSuggestions(String prefix){
@@ -68,5 +68,18 @@ public class MTRData {
                 .filter(ent -> ent.getValue().containsKey(stationAbbr))
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toSet());
+    }
+    public Optional<String> getStationAbbr(String fullNames){
+        return lines.values().stream()
+                .flatMap(maps -> maps.entrySet().stream())
+                .filter(ent -> ent.getValue().equals(fullNames))
+                .map(Map.Entry::getKey)
+                .findFirst();
+    }
+    public Optional<String> getLineAbbr(String fullNames){
+        return fullName.entrySet().stream()
+                .filter(ent -> ent.getValue().equals(fullNames))
+                .map(Map.Entry::getKey)
+                .findFirst();
     }
 }
