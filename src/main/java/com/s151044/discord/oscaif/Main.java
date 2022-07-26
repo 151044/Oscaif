@@ -1,7 +1,8 @@
 package com.s151044.discord.oscaif;
 
 import com.s151044.discord.oscaif.commands.*;
-import com.s151044.discord.oscaif.commands.interactions.ContextMenuHandler;
+import com.s151044.discord.oscaif.handlers.interactions.ContextMenuHandler;
+import com.s151044.discord.oscaif.commands.interactions.MTRData;
 import com.s151044.discord.oscaif.commands.map.ListMap;
 import com.s151044.discord.oscaif.commands.map.MapToMessage;
 import com.s151044.discord.oscaif.commands.map.RecallCommand;
@@ -18,6 +19,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
 import javax.security.auth.login.LoginException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,7 +29,7 @@ public class Main {
 
     private static Message tags;
 
-    public static void main(String[] args) throws LoginException, InterruptedException {
+    public static void main(String[] args) throws LoginException, InterruptedException, IOException {
 
         CommandList cmd = new CommandList();
 
@@ -56,6 +58,8 @@ public class Main {
             Messages.sendMessage(tags, sb.toString());
             tags = channel.retrieveMessageById(channel.getLatestMessageId()).complete();
         }
+
+        MTRData data = new MTRData();
 
         cmd.addCommand(new OppositeDirection());
         cmd.addCommand(new Rickroll());

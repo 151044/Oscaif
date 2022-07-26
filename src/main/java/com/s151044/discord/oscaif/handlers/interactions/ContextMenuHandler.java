@@ -1,5 +1,6 @@
-package com.s151044.discord.oscaif.commands.interactions;
+package com.s151044.discord.oscaif.handlers.interactions;
 
+import com.s151044.discord.oscaif.commands.interactions.ContextDirection;
 import net.dv8tion.jda.api.events.interaction.command.MessageContextInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
