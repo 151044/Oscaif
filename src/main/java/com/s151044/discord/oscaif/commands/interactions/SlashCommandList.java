@@ -7,10 +7,8 @@ import java.util.*;
  */
 public class SlashCommandList {
     private Map<String, SlashCommand> commandMap;
-    private Map<List<String>,String> aliasMap;
     public SlashCommandList() {
         commandMap = new HashMap<>();
-        aliasMap = new HashMap<>();
     }
 
     /**
@@ -21,10 +19,7 @@ public class SlashCommandList {
     public Optional<SlashCommand> tryGet(String byName){
         if(commandMap.containsKey(byName)){
             return Optional.of(commandMap.get(byName));
-        }
-        if(aliasMap.keySet().stream().flatMap(Collection::stream).anyMatch(str -> str.equals(byName))){
-            return Optional.of(commandMap.get(aliasMap.entrySet().stream().filter(ent -> ent.getKey().contains(byName)).findFirst().map(ent -> ent.getValue()).get()));
-        }else{
+        } else {
             return Optional.empty();
         }
     }
@@ -35,7 +30,6 @@ public class SlashCommandList {
      */
     public void addCommand(SlashCommand toAdd){
         commandMap.put(toAdd.callName(), toAdd);
-        aliasMap.put(toAdd.alias(), toAdd.callName());
     }
     public List<SlashCommand> getCommands(){
         return List.copyOf(commandMap.values());

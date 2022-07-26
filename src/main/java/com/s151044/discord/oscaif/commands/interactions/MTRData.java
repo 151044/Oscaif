@@ -10,13 +10,13 @@ public class MTRData {
     private Map<String, String> fullName = new HashMap<>();
     private Map<String, Map<String, String>> lines = new HashMap<>();
     public MTRData() throws IOException {
-        Path p = Path.of("mtr/Lines.txt");
+        Path p = Path.of("data/mtr/Lines.txt");
         for(String s : Files.readAllLines(p)){
             if(!s.isEmpty()) {
                 int space = s.indexOf(' ');
                 fullName.put(s.substring(0, space), s.substring(space + 1));
                 Map<String, String> stations = new HashMap<>();
-                for(String sta : Files.readAllLines(Path.of("mtr/" + s.substring(space + 1)))) {
+                for(String sta : Files.readAllLines(Path.of("data/mtr/" + s.substring(0, space) + ".txt"))) {
                     int stationSpace = s.indexOf(' ');
                     stations.put(sta.substring(0, stationSpace), sta.substring(stationSpace + 1));
                 }
@@ -41,10 +41,17 @@ public class MTRData {
                 .map(Map.Entry::getKey)
                 .findFirst();
     }
-    public Set<String> getSuggestions(String prefix){
+    public Set<String> getStationSuggestions(String prefix){
         return lines.values().stream()
                 .map(Map::values).flatMap(Collection::stream)
                 .filter(str -> str.startsWith(prefix))
+                .limit(25)
+                .collect(Collectors.toSet());
+    }
+    public Set<String> getLineSuggestions(String prefix){
+        return fullName.values().stream()
+                .filter(str -> str.startsWith(prefix))
+                .limit(25)
                 .collect(Collectors.toSet());
     }
     public Set<String> getLines(){

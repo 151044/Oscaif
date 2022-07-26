@@ -1,9 +1,8 @@
 package com.s151044.discord.oscaif.commands.interactions;
 
+import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
-
-import java.util.List;
 
 /**
  * The interface to represent a slash command in Discord.
@@ -24,7 +23,5 @@ public interface SlashCommand {
 
     SlashCommandData commandInfo();
 
-    default boolean hidden(){
-        return false;
-    }
+    default void handleAutocomplete(CommandAutoCompleteInteractionEvent evt){}
 }

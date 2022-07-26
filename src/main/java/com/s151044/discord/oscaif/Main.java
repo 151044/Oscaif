@@ -1,6 +1,8 @@
 package com.s151044.discord.oscaif;
 
 import com.s151044.discord.oscaif.commands.*;
+import com.s151044.discord.oscaif.commands.interactions.MTREta;
+import com.s151044.discord.oscaif.commands.interactions.SlashCommandList;
 import com.s151044.discord.oscaif.handlers.interactions.ContextMenuHandler;
 import com.s151044.discord.oscaif.commands.interactions.MTRData;
 import com.s151044.discord.oscaif.commands.map.ListMap;
@@ -8,6 +10,7 @@ import com.s151044.discord.oscaif.commands.map.MapToMessage;
 import com.s151044.discord.oscaif.commands.map.RecallCommand;
 import com.s151044.discord.oscaif.commands.map.ReplaceMap;
 import com.s151044.discord.oscaif.handlers.MessageHandler;
+import com.s151044.discord.oscaif.handlers.interactions.SlashHandler;
 import com.s151044.discord.oscaif.utils.Messages;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -32,12 +35,14 @@ public class Main {
     public static void main(String[] args) throws LoginException, InterruptedException, IOException {
 
         CommandList cmd = new CommandList();
+        SlashCommandList slashList = new SlashCommandList();
 
         jda = JDABuilder.createDefault(System.getenv("BOT_TOKEN"))
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT)
                 .addEventListeners(
                         new MessageHandler("&", cmd),
-                        new ContextMenuHandler())
+                        new ContextMenuHandler(),
+                        new SlashHandler(slashList))
                 .build();
         jda.awaitReady();
 
@@ -72,8 +77,9 @@ public class Main {
         cmd.addCommand(new Shutdown());
         cmd.addCommand(new ReviewCommand());
         cmd.addCommand(new SyllabusCommand());
-        cmd.addCommand(new SetupInteractions());
+        cmd.addCommand(new SetupInteractions(slashList));
 
+        slashList.addCommand(new MTREta(data));
     }
     public static void shutdown(){
         flushMessage();
