@@ -22,7 +22,6 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -56,6 +55,8 @@ public class MTREta implements SlashCommand {
         OptionMapping filterOpt = evt.getOption("filter-by");
         OptionMapping criteriaOpt = evt.getOption("criteria");
         boolean hasFilter = false;
+        int trainsFound = 0;
+
         if(filterOpt != null) {
             if(criteriaOpt == null) {
                 hook.sendMessage("Filters must be accompanied by a criteria!").queue();
@@ -90,26 +91,31 @@ public class MTREta implements SlashCommand {
                 JsonObject jsonData = root.getAsJsonObject("data").getAsJsonObject(s + "-" + stationAbbr);
                 JsonArray up = jsonData.getAsJsonArray("UP");
                 if(up != null) {
-                    parseTrainTimes(platforms, destinations, eta, up, hasFilter);
+                    trainsFound += parseTrainTimes(platforms, destinations, eta, up, hasFilter);
                 }
                 JsonArray down = jsonData.getAsJsonArray("DOWN");
                 if(down != null) {
-                    parseTrainTimes(platforms, destinations, eta, down, hasFilter);
+                    trainsFound += parseTrainTimes(platforms, destinations, eta, down, hasFilter);
                 }
             } catch (IOException | InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
-        EmbedBuilder build = new EmbedBuilder();
-        build.addField("Platform", platforms.toString(), true)
-                .addField("Destination", destinations.toString(), true)
-                .addField("ETA", eta.toString(), true)
-                .setColor(Color.CYAN)
-                .setTitle(title + ":");
-        hook.sendMessageEmbeds(build.build()).queue();
+        if(trainsFound == 0){
+            hook.sendMessageEmbeds(EmbedHelper.getEmbed("Unable to find any trains matching that criteria!", title + ":")).queue();
+        } else {
+            EmbedBuilder build = new EmbedBuilder();
+            build.addField("Platform", platforms.toString(), true)
+                    .addField("Destination", destinations.toString(), true)
+                    .addField("ETA", eta.toString(), true)
+                    .setColor(Color.CYAN)
+                    .setTitle(title + ":");
+            hook.sendMessageEmbeds(build.build()).queue();
+        }
     });
 
-    private void parseTrainTimes(StringBuilder platforms, StringBuilder destinations, StringBuilder eta, JsonArray up, boolean hasFilter) {
+    private int parseTrainTimes(StringBuilder platforms, StringBuilder destinations, StringBuilder eta, JsonArray up, boolean hasFilter) {
+        int trainsFound = 0;
         InteractionHook hook = evt.getHook();
         for(JsonElement entries : up){
             JsonObject train = entries.getAsJsonObject();
@@ -131,7 +137,9 @@ public class MTREta implements SlashCommand {
             LocalDateTime etaTime = LocalDateTime.parse(train.get("time").getAsString().replace(' ', 'T'));
             LocalDateTime now = LocalDateTime.now(ZoneId.of("UTC+8"));
             eta.append(Duration.between(now, etaTime).toMinutes()).append(" min(s)\n");
+            trainsFound++;
         }
+        return trainsFound;
     }
 
     public MTREta(MTRData data) {
