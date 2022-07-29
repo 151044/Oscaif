@@ -33,7 +33,7 @@ public class MTREta implements SlashCommand {
     private static final HttpClient httpCli = HttpClient.newBuilder().build();
     private static final Gson gson = new GsonBuilder().create();
     private MTRData data;
-    private List<String> filters = List.of("line", "destination");
+    private final List<String> filters = List.of("line", "destination");
     private SlashCommandInteractionEvent evt;
     private LimitedExecutor executor = new LimitedExecutor(20, TimeUnit.SECONDS, () -> {
         evt.deferReply().queue();

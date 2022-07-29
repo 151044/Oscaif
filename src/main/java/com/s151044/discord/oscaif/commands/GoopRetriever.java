@@ -26,7 +26,7 @@ public class GoopRetriever implements Command {
         formatted = req.getPosts();
     });
     public GoopRetriever(){
-        refreshTimer.scheduleAtFixedRate(() -> executor.queueExecution(), 0, 15, TimeUnit.MINUTES);
+        refreshTimer.scheduleAtFixedRate(() -> executor.queueExecution(), 0, 30, TimeUnit.MINUTES);
     }
     @Override
     public void action(MessageReceivedEvent evt, String callName, String arguments) {
@@ -65,7 +65,7 @@ public class GoopRetriever implements Command {
     @Override
     public String longHelp() {
         return "Gets top posts from goop.\n" +
-                "Results are cached, and updated per 15 minutes.\n" +
+                "Results are cached, and updated per 30 minutes.\n" +
                 "Refreshing early can be done by &goop refresh, but this action is on a timer of 5 minutes.";
     }
     private static class GoopRequest {

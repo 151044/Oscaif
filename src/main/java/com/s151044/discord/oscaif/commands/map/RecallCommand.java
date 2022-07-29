@@ -16,7 +16,7 @@ public class RecallCommand implements Command {
     }
     @Override
     public void action(MessageReceivedEvent evt, String callName, String arguments) {
-        String keyword = evt.getMessage().getContentRaw().substring(callName.length() + 2);
+        String keyword = arguments;
         if(keyword.isEmpty()){
             Messages.sendMessage(evt, "Please enter a keyword.");
             return;
