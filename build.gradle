@@ -34,6 +34,7 @@ task clientJar(type:Jar,dependsOn:assemble){
     }
     //noinspection GrDeprecatedAPIUsage
     archiveVersion = '0.1.0'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from { configurations.archives.artifacts.files.collect { zipTree(it) } }
     from { configurations.runtimeClasspath.toSet().collect { it.isDirectory() ?  it : zipTree(it) } }
     with jar
