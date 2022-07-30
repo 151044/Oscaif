@@ -33,16 +33,16 @@ public class GoopRetriever implements Command {
         if(arguments.equals("refresh")) {
             long delayMs = executor.getDelay(TimeUnit.MILLISECONDS);
             if (delayMs > 0) {
-                Messages.sendMessage(evt, "The refreshing action is on delay. Time left: " + Messages.toTime(delayMs));
+                Messages.send(evt, "The refreshing action is on delay. Time left: " + Messages.toTime(delayMs));
             } else {
-                Messages.sendMessage(evt, "Refreshing.");
+                Messages.send(evt, "Refreshing.");
             }
             executor.queueExecution();
         } else {
             if(formatted.size() == 0){
-                Messages.sendMessage(evt, "Nothing yet...");
+                Messages.send(evt, "Nothing yet...");
             } else {
-                EmbedHelper.getLongEmbed(String.join("\n", formatted), "Goop Posts:").forEach(emb -> Messages.sendMessage(evt, emb));
+                EmbedHelper.getLongEmbed(String.join("\n", formatted), "Goop Posts:").forEach(emb -> Messages.send(evt, emb));
             }
         }
     }

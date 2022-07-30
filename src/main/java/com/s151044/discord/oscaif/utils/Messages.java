@@ -14,12 +14,12 @@ import java.util.stream.Collectors;
 public class Messages {
     /**
      * Queues a message to be sent.
-     * This is a convenience method for {@link Messages#sendMessage(TextChannel, String)}.
+     * This is a convenience method for {@link Messages#send(TextChannel, String)}.
      * @param evt The message received event, from which a text channel can be derived
      * @param msg The message to send
      */
-    public static void sendMessage(MessageReceivedEvent evt, String msg){
-        sendMessage(evt.getChannel().asTextChannel(),msg);
+    public static void send(MessageReceivedEvent evt, String msg){
+        send(evt.getChannel().asTextChannel(),msg);
     }
 
     /**
@@ -27,7 +27,7 @@ public class Messages {
      * @param text The text channel to send to
      * @param msg The message to send
      */
-    public static void sendMessage(TextChannel text, String msg){
+    public static void send(TextChannel text, String msg){
         boolean hasNewlines = msg.lastIndexOf("\n") != -1;
         boolean hasSpace = msg.lastIndexOf(" ") != -1;
         while (msg.length() > 1980) {
@@ -49,24 +49,24 @@ public class Messages {
      * @param text The message received event, from which a text channel can be derived
      * @param toSend The embed to send
      */
-    public static void sendMessage(TextChannel text, MessageEmbed toSend){
+    public static void send(TextChannel text, MessageEmbed toSend){
         text.sendMessageEmbeds(toSend).queue();
     }
 
     /**
      * Queues an embed to be sent.
-     * This is a convenience method for {@link Messages#sendMessage(TextChannel, MessageEmbed)}.
+     * This is a convenience method for {@link Messages#send(TextChannel, MessageEmbed)}.
      * @param evt The message received event, from which a text channel can be derived
      * @param toSend The embed to send
      */
-    public static void sendMessage(MessageReceivedEvent evt, MessageEmbed toSend){
-        sendMessage(evt.getChannel().asTextChannel(),toSend);
+    public static void send(MessageReceivedEvent evt, MessageEmbed toSend){
+        send(evt.getChannel().asTextChannel(),toSend);
     }
 
-    public static void sendMessage(Message reply, String content){
-        sendMessage(reply.getChannel().asTextChannel(), content);
+    public static void send(Message reply, String content){
+        send(reply.getChannel().asTextChannel(), content);
     }
-    public static void sendMessage(MessageChannel channel, MessageEmbed toSend){
+    public static void send(MessageChannel channel, MessageEmbed toSend){
         channel.sendMessageEmbeds(toSend).queue();
     }
 

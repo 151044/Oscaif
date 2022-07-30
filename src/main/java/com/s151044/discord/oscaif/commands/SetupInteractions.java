@@ -23,11 +23,11 @@ public class SetupInteractions implements Command{
     @Override
     public void action(MessageReceivedEvent evt, String callName, String arguments) {
         if(!evt.getChannelType().isGuild()){
-            Messages.sendMessage(evt, "This is not a guild channel!");
+            Messages.send(evt, "This is not a guild channel!");
             return;
         }
         if(guildIds.contains(evt.getGuild().getId())){
-            Messages.sendMessage(evt, "Interactions have been set up in this server already!");
+            Messages.send(evt, "Interactions have been set up in this server already!");
             return;
         }
         GuildMessageChannel channel = evt.getGuildChannel();
@@ -36,7 +36,7 @@ public class SetupInteractions implements Command{
                 .addCommands(slashList.getCommands().stream().map(SlashCommand::commandInfo).collect(Collectors.toList()))
                         .queue();
         guildIds.add(evt.getGuild().getId());
-        Messages.sendMessage(evt, "Done!");
+        Messages.send(evt, "Done!");
     }
 
     @Override

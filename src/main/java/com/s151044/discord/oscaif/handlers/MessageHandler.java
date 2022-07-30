@@ -11,7 +11,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 /**
  * A handler for guild messages.
@@ -73,15 +72,15 @@ public class MessageHandler extends ListenerAdapter {
                     build.append("\n");
                 }
             }
-            Messages.sendMessage(event, EmbedHelper.getEmbed(build.toString(), "Help"));
+            Messages.send(event, EmbedHelper.getEmbed(build.toString(), "Help"));
         } else if(args.equals("help")){
-            Messages.sendMessage(event, funnyHelpMessages.get(rand.nextInt(funnyHelpMessages.size())));
+            Messages.send(event, funnyHelpMessages.get(rand.nextInt(funnyHelpMessages.size())));
         } else {
             Optional<Command> command = list.tryGet(args);
             if(command.isPresent() && !command.get().hidden()){
-                Messages.sendMessage(event, EmbedHelper.getEmbed(formatHelp(command.get()), command.get().callName()));
+                Messages.send(event, EmbedHelper.getEmbed(formatHelp(command.get()), command.get().callName()));
             } else {
-                Messages.sendMessage(event, "Command not found!");
+                Messages.send(event, "Command not found!");
             }
         }
     }

@@ -10,14 +10,14 @@ public class ReviewCommand implements Command{
     @Override
     public void action(MessageReceivedEvent evt, String callName, String arguments) {
         if(arguments.isEmpty()){
-            Messages.sendMessage(evt, "Please specify a course name.");
+            Messages.send(evt, "Please specify a course name.");
             return;
         }
         if(arguments.length() > MAX_LENGTH){
-            Messages.sendMessage(evt, "Course name is too long.");
+            Messages.send(evt, "Course name is too long.");
             return;
         }
-        Messages.sendMessage(evt, "https://ust.space/review/" + arguments.replace(" ","")
+        Messages.send(evt, "https://ust.space/review/" + arguments.replace(" ","")
                 .replace("\n", ""));
     }
 

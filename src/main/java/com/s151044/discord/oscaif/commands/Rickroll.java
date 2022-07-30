@@ -11,7 +11,7 @@ public class Rickroll implements Command {
     private Random rand = new Random();
     @Override
     public void action(MessageReceivedEvent evt, String callName, String arguments) {
-        Messages.sendMessage(evt, msg.get(rand.nextInt(msg.size())));
+        Messages.send(evt, msg.get(rand.nextInt(msg.size())));
     }
 
     @Override

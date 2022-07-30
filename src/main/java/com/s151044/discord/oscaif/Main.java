@@ -60,7 +60,7 @@ public class Main {
         if(!tags.getAuthor().isBot()){
             StringBuilder sb = new StringBuilder();
             toUrl.forEach((key, value) -> sb.append(key).append("\t").append(value).append("\n"));
-            Messages.sendMessage(tags, sb.toString());
+            Messages.send(tags, sb.toString());
             tags = channel.retrieveMessageById(channel.getLatestMessageId()).complete();
         }
 

@@ -22,9 +22,9 @@ public class MapToMessage implements Command {
         if(refMsg != null){
             String jumpUrl = refMsg.getJumpUrl();
             toUrl.put(keyword, jumpUrl);
-            Messages.sendMessage(evt, "Successfully linked " + keyword + " with message.");
+            Messages.send(evt, "Successfully linked " + keyword + " with message.");
         } else {
-            Messages.sendMessage(evt, "Please reference a message.");
+            Messages.send(evt, "Please reference a message.");
         }
         Main.flushMessage();
     });
@@ -36,15 +36,15 @@ public class MapToMessage implements Command {
     public void action(MessageReceivedEvent evt, String callName, String arguments) {
         long delayMs = executor.getDelay(TimeUnit.MILLISECONDS);
         if(arguments.isEmpty()){
-            Messages.sendMessage(evt, "Please enter a keyword.");
+            Messages.send(evt, "Please enter a keyword.");
             return;
         }
         if(toUrl.containsKey(arguments)){
-            Messages.sendMessage(evt, "Keyword " + arguments + " exists. Remove with the &remove command first.");
+            Messages.send(evt, "Keyword " + arguments + " exists. Remove with the &remove command first.");
             return;
         }
         if (delayMs > 0) {
-            Messages.sendMessage(evt, "The mapping action is on delay. Time left: " + Messages.toTime(delayMs));
+            Messages.send(evt, "The mapping action is on delay. Time left: " + Messages.toTime(delayMs));
         } else {
             this.evt = evt;
             this.refMsg = evt.getMessage().getReferencedMessage();

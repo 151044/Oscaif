@@ -18,7 +18,7 @@ public class OppositeDirection implements Command{
     private MessageReceivedEvent evt;
     private LimitedExecutor executor = new LimitedExecutor(5, TimeUnit.SECONDS, () -> {
         if(toOppose.length() > MAX_LENGTH && !Main.isOwner(evt)){
-            Messages.sendMessage(evt, "Message too long!");
+            Messages.send(evt, "Message too long!");
             return;
         }
         int numRepeats = (int) Math.max(2, Math.floor(rand.nextGaussian() * 2.5 + 7.5));
@@ -37,13 +37,13 @@ public class OppositeDirection implements Command{
         if(toEmbed.trim().startsWith(">")){
             toEmbed = "\\" + toEmbed.trim();
         }
-        EmbedHelper.getLongEmbed(toEmbed).forEach(emb -> Messages.sendMessage(evt, emb));
+        EmbedHelper.getLongEmbed(toEmbed).forEach(emb -> Messages.send(evt, emb));
     });
     @Override
     public void action(MessageReceivedEvent evt, String callName, String arguments) {
         long delayMs = executor.getDelay(TimeUnit.MILLISECONDS);
         if(delayMs > 0) {
-            Messages.sendMessage(evt, "The 5B bus went too fast! Please wait for " + Messages.toTime(delayMs)
+            Messages.send(evt, "The 5B bus went too fast! Please wait for " + Messages.toTime(delayMs)
                     + " before trying this again.");
         } else {
             toOppose = arguments;

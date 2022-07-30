@@ -17,14 +17,14 @@ public class ReplaceMap implements Command {
     public void action(MessageReceivedEvent evt, String callName, String arguments) {
         String keyword = evt.getMessage().getContentRaw().substring(callName.length() + 2);
         if(keyword.isEmpty()){
-            Messages.sendMessage(evt, "Please enter a keyword.");
+            Messages.send(evt, "Please enter a keyword.");
             return;
         }
         if(toUrl.containsKey(keyword)){
             toUrl.remove(keyword);
-            Messages.sendMessage(evt, "Successfully removed " + keyword + " mapping.");
+            Messages.send(evt, "Successfully removed " + keyword + " mapping.");
         } else {
-            Messages.sendMessage(evt, "Cannot find " + keyword + "!");
+            Messages.send(evt, "Cannot find " + keyword + "!");
         }
         Main.flushMessage();
     }

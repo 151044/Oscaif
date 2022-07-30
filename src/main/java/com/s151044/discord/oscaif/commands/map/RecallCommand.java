@@ -18,13 +18,13 @@ public class RecallCommand implements Command {
     public void action(MessageReceivedEvent evt, String callName, String arguments) {
         String keyword = arguments;
         if(keyword.isEmpty()){
-            Messages.sendMessage(evt, "Please enter a keyword.");
+            Messages.send(evt, "Please enter a keyword.");
             return;
         }
         if(toUrl.containsKey(keyword)){
-            Messages.sendMessage(evt, toUrl.get(keyword));
+            Messages.send(evt, toUrl.get(keyword));
         } else {
-            Messages.sendMessage(evt, "Cannot find " + keyword + "!");
+            Messages.send(evt, "Cannot find " + keyword + "!");
         }
         Main.flushMessage();
     }

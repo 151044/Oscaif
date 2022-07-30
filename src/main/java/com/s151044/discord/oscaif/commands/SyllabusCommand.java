@@ -13,33 +13,33 @@ public class SyllabusCommand implements Command{
     public void action(MessageReceivedEvent evt, String callName, String arguments) {
          String[] args = arguments.split(" ");
          if(args[0].equals("")) {
-             Messages.sendMessage(evt, "Please enter the program shorthand.");
+             Messages.send(evt, "Please enter the program shorthand.");
          } else if (args.length == 1) {
              if(args[0].length() > 6){
                  args[0] = "iim";
-                 Messages.sendMessage(evt, "Entered argument too long; Assuming IIM.");
+                 Messages.send(evt, "Entered argument too long; Assuming IIM.");
              }
-             Messages.sendMessage(evt, BASE + args[0] + ".pdf");
+             Messages.send(evt, BASE + args[0] + ".pdf");
          } else {
              if(args[1].length() > 6){
                  args[1] = "iim";
-                 Messages.sendMessage(evt, "Entered argument too long; Assuming IIM.");
+                 Messages.send(evt, "Entered argument too long; Assuming IIM.");
              }
              args[1] = args[1].toLowerCase();
              if(args[0].equals("major") || args[0].equals("maj")){
-                 Messages.sendMessage(evt, BASE + args[1] + ".pdf");
+                 Messages.send(evt, BASE + args[1] + ".pdf");
              } else if(args[0].equals("minor") || args[0].equals("min")){
-                 Messages.sendMessage(evt, BASE_MINOR + args[1] + ".pdf");
+                 Messages.send(evt, BASE_MINOR + args[1] + ".pdf");
              } else if(args[0].equals("extmajor") || args[0].equals("extm")){
-                Messages.sendMessage(evt, BASE + "extm-" + args[1] + ".pdf");
+                Messages.send(evt, BASE + "extm-" + args[1] + ".pdf");
              } else if(args[0].equals("schoolreq") || args[0].equals("req")){
                 if(args[1].equals("ssci") || args[1].equals("sbm")) {
-                    Messages.sendMessage(evt, BASE + args[1] + "_requirements.pdf");
+                    Messages.send(evt, BASE + args[1] + "_requirements.pdf");
                 } else {
-                    Messages.sendMessage(evt, "No such school requirement!");
+                    Messages.send(evt, "No such school requirement!");
                 }
              } else {
-                 Messages.sendMessage(evt, "Unknown keyword. Valid keywords are any of " +
+                 Messages.send(evt, "Unknown keyword. Valid keywords are any of " +
                          "[major/maj/minor/min/extmajor/extm/schoolreq/req].");
              }
          }

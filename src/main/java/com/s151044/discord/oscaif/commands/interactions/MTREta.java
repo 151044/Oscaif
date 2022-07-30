@@ -98,6 +98,7 @@ public class MTREta implements SlashCommand {
                     trainsFound += parseTrainTimes(platforms, destinations, eta, down, hasFilter);
                 }
             } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
                 throw new RuntimeException(e);
             }
         }
@@ -175,23 +176,23 @@ public class MTREta implements SlashCommand {
     public void handleAutocomplete(CommandAutoCompleteInteractionEvent evt) {
         String option = evt.getFocusedOption().getName();
         String prefix = evt.getFocusedOption().getValue();
-        if(option.equals("station")){
-            evt.replyChoiceStrings(data.getStationSuggestions(prefix)).queue();
-        } else if(option.equals("filter-by")){
-            evt.replyChoiceStrings(filters.stream()
+        switch (option) {
+            case "station" -> evt.replyChoiceStrings(data.getStationSuggestions(prefix)).queue();
+            case "filter-by" -> evt.replyChoiceStrings(filters.stream()
                     .filter(str -> str.startsWith(prefix))
                     .collect(Collectors.toList())).queue();
-        } else if(option.equals("criteria")) {
-            OptionMapping optionData = evt.getOption("filter-by");
-            if(optionData == null) {
-                evt.replyChoiceStrings(List.of()).queue();
-                return;
-            }
-            String value = optionData.getAsString();
-            if(value.equals("line")) {
-                evt.replyChoiceStrings(data.getLineSuggestions(prefix)).queue();
-            } else if(value.equals("destination")){
-                evt.replyChoiceStrings(data.getStationSuggestions(prefix)).queue();
+            case "criteria" -> {
+                OptionMapping optionData = evt.getOption("filter-by");
+                if (optionData == null) {
+                    evt.replyChoiceStrings(List.of()).queue();
+                    return;
+                }
+                String value = optionData.getAsString();
+                if (value.equals("line")) {
+                    evt.replyChoiceStrings(data.getLineSuggestions(prefix)).queue();
+                } else if (value.equals("destination")) {
+                    evt.replyChoiceStrings(data.getStationSuggestions(prefix)).queue();
+                }
             }
         }
     }

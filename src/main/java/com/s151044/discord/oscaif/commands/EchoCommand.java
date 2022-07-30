@@ -9,7 +9,7 @@ import java.util.List;
 public class EchoCommand implements Command {
     @Override
     public void action(MessageReceivedEvent evt, String callName, String arguments) {
-        Messages.sendMessage(evt, arguments);
+        Messages.send(evt, arguments);
     }
 
     @Override

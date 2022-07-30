@@ -19,7 +19,7 @@ public class ListMap implements Command {
     public void action(MessageReceivedEvent evt, String callName, String arguments) {
         StringBuilder sb = new StringBuilder();
         toUrl.forEach((key, value) -> sb.append(key).append("\n"));
-        Messages.sendMessage(evt, EmbedHelper.getEmbed(sb.toString(), "Available Mappings:"));
+        Messages.send(evt, EmbedHelper.getEmbed(sb.toString(), "Available Mappings:"));
     }
 
     @Override

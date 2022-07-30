@@ -12,7 +12,7 @@ public class Shutdown implements Command {
         if(Main.isOwner(evt)){
             Main.shutdown();
         } else {
-            Messages.sendMessage(evt, "You're not authorized to use this command.");
+            Messages.send(evt, "You're not authorized to use this command.");
         }
     }
 
