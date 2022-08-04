@@ -78,6 +78,7 @@ public class Main {
         cmd.addCommand(new ReviewCommand());
         cmd.addCommand(new SyllabusCommand());
         cmd.addCommand(new SetupInteractions(slashList));
+        cmd.addCommand(new Unexpected());
 
         slashList.addCommand(new MTREta(data));
     }
