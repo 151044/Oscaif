@@ -7,6 +7,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class MTRData {
+    private static final int SUGGEST_LIMIT = 25;
     private Map<String, String> fullName = new HashMap<>();
     private Map<String, Map<String, String>> lines = new HashMap<>();
     public MTRData() throws IOException {
@@ -45,13 +46,13 @@ public class MTRData {
         return lines.values().stream()
                 .map(Map::values).flatMap(Collection::stream)
                 .filter(str -> str.startsWith(prefix))
-                .limit(25)
+                .limit(SUGGEST_LIMIT)
                 .collect(Collectors.toSet());
     }
     public Set<String> getLineSuggestions(String prefix){
         return fullName.values().stream()
                 .filter(str -> str.startsWith(prefix))
-                .limit(25)
+                .limit(SUGGEST_LIMIT)
                 .collect(Collectors.toSet());
     }
     public Set<String> getLines(){

@@ -1,6 +1,10 @@
 package com.s151044.discord.oscaif;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.s151044.discord.oscaif.commands.*;
+import com.s151044.discord.oscaif.commands.interactions.course.CourseData;
+import com.s151044.discord.oscaif.commands.interactions.course.QueryCourse;
 import com.s151044.discord.oscaif.commands.interactions.MTREta;
 import com.s151044.discord.oscaif.commands.interactions.SlashCommandList;
 import com.s151044.discord.oscaif.handlers.interactions.ContextMenuHandler;
@@ -23,6 +27,7 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 
 import javax.security.auth.login.LoginException;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,6 +36,7 @@ public class Main {
     private static Map<String,String> toUrl;
 
     private static Message tags;
+    private static Gson gson = new GsonBuilder().create();
 
     public static void main(String[] args) throws LoginException, InterruptedException, IOException {
 
@@ -80,7 +86,9 @@ public class Main {
         cmd.addCommand(new SetupInteractions(slashList));
         cmd.addCommand(new Unexpected());
 
-        slashList.addCommand(new MTREta(data));
+        slashList.addCommand(new MTREta(data, gson));
+        slashList.addCommand(new QueryCourse(new CourseData(gson, Path.of("data/courses.json"))));
+
     }
     public static void shutdown(){
         flushMessage();

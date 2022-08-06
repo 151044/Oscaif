@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 public class MTREta implements SlashCommand {
     private static final String BASE_URL = "https://rt.data.gov.hk/v1/transport/mtr/getSchedule.php?";
     private static final HttpClient httpCli = HttpClient.newBuilder().build();
-    private static final Gson gson = new GsonBuilder().create();
+    private static Gson gson;
     private MTRData data;
     private final List<String> filters = List.of("line", "destination");
     private SlashCommandInteractionEvent evt;
@@ -143,8 +143,9 @@ public class MTREta implements SlashCommand {
         return trainsFound;
     }
 
-    public MTREta(MTRData data) {
+    public MTREta(MTRData data, Gson gson) {
         this.data = data;
+        this.gson = gson;
     }
 
     @Override
