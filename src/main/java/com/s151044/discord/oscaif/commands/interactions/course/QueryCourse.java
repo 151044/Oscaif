@@ -60,7 +60,7 @@ public class QueryCourse implements SlashCommand {
     public SlashCommandData commandInfo() {
         return Commands.slash("course-info", "Fetches information about a course.")
                 .addOption(OptionType.STRING, "dept", "The department to search for.", true, true)
-                .addOption(OptionType.STRING, "code", "The course code ton search for.", true, true);
+                .addOption(OptionType.STRING, "code", "The course code to search for.", true, true);
     }
 
     @Override
