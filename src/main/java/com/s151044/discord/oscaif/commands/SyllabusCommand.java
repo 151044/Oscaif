@@ -19,6 +19,7 @@ public class SyllabusCommand implements Command{
                  args[0] = "iim";
                  Messages.send(evt, "Entered argument too long; Assuming IIM.");
              }
+             args[0] = args[0].toLowerCase();
              Messages.send(evt, BASE + args[0] + ".pdf");
          } else {
              if(args[1].length() > 6){
