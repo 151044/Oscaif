@@ -54,8 +54,8 @@ public class CourseData {
     }
     public List<Course> getByCcArea(String area, boolean sscOnly) {
         return courses.stream()
-                .filter(course -> course.getCcType().getCategories().contains(area))
-                .filter(course -> sscOnly ? course.isSsc() : true)
+                .filter(course -> course.getCcTypes().stream().anyMatch(c -> c.getCategory().equals(area)))
+                .filter(course -> !sscOnly || course.isSsc())
                 .collect(Collectors.toList());
     }
 }

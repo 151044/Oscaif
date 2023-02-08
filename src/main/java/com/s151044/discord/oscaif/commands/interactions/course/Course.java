@@ -15,7 +15,7 @@ public class Course {
     private String desc = "";
     private String title = "";
     private int credits = -1;
-    private CCType ccType = new CCType();
+    private List<CCType> ccType = new ArrayList<>();
 
     public Course(String dept, String code) {
         this.dept = dept;
@@ -34,7 +34,10 @@ public class Course {
         credits = object.get("credits").getAsInt();
         desc = object.get("description").getAsString();
         if(object.has("ccType")) {
-            ccType = new CCType(36, List.of(object.get("ccType").getAsString()), object.get("isSsc").getAsBoolean());
+            ccType = List.of(
+                    new CCType(36,
+                            object.get("ccType").getAsString(),
+                            object.get("isSsc").getAsBoolean()));
         }
     }
 
@@ -67,7 +70,7 @@ public class Course {
     }
 
     public boolean isSsc() {
-        return ccType.isSsc;
+        return ccType.stream().anyMatch(c -> c.ccCredits == 36 && c.isSsc);
     }
 
     @Override
@@ -83,25 +86,18 @@ public class Course {
         return Objects.hash(dept, code);
     }
 
-    public CCType getCcType() {
+    public List<CCType> getCcTypes() {
         return ccType;
     }
 
     public static class CCType {
         private int ccCredits = -1;
-        private List<String> category = new ArrayList<>();
+        private String category = "";
         private boolean isSsc = false;
-        private boolean invalid = false;
-        private CCType() {
-            invalid = true;
-        }
-        public CCType(int credits, List<String> category) {
-            this(credits, category, false);
-        }
 
-        public CCType(int credits, List<String> category, boolean isSsc) {
+        public CCType(int credits, String category, boolean isSsc) {
             ccCredits = credits;
-            this.category.addAll(category);
+            this.category = category;
             this.isSsc = isSsc;
         }
 
@@ -109,12 +105,8 @@ public class Course {
             return ccCredits;
         }
 
-        public List<String> getCategories() {
+        public String getCategory() {
             return category;
-        }
-
-        public boolean isInvalid() {
-            return invalid;
         }
 
         @Override

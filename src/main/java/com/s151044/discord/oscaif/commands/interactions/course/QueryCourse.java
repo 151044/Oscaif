@@ -13,6 +13,7 @@ import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class QueryCourse implements SlashCommand {
 
@@ -40,7 +41,9 @@ public class QueryCourse implements SlashCommand {
                 String.format("**Description:** %s\n**Attributes:** %s\n**Common Core Area:** %s\n**SSC:** %s",
                 course.getDesc(),
                 attributes.isEmpty() ? "None" : attributes,
-                course.getCcType().isInvalid() ? "None" : course.getCcType().toString(),
+                course.getCcTypes().isEmpty() ? "None" : course.getCcTypes().stream()
+                        .map(Course.CCType::toString)
+                        .collect(Collectors.joining("\n")),
                 course.isSsc() ? "Yes" : "No"),
                 String.format("%s %s - %s (%d credit(s))",
                         course.getDept(),
