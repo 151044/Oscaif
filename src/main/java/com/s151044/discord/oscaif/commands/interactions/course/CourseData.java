@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -24,6 +25,11 @@ public class CourseData {
             depts.computeIfAbsent(course.getDept(), (ignored) -> new ArrayList<>()).add(course.getCode());
         });
     }
+
+    public CourseData(Gson gson, URL url) {
+
+    }
+
     public List<String> suggestDepts(String initial) {
         return depts.keySet().stream()
                 .filter(s -> s.startsWith(initial))
@@ -48,7 +54,7 @@ public class CourseData {
     }
     public List<Course> getByCcArea(String area, boolean sscOnly) {
         return courses.stream()
-                .filter(course -> course.getCcType().equals(area))
+                .filter(course -> course.getCcType().getCategories().contains(area))
                 .filter(course -> sscOnly ? course.isSsc() : true)
                 .collect(Collectors.toList());
     }

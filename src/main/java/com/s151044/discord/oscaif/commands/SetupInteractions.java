@@ -3,7 +3,7 @@ package com.s151044.discord.oscaif.commands;
 import com.s151044.discord.oscaif.commands.interactions.SlashCommand;
 import com.s151044.discord.oscaif.commands.interactions.SlashCommandList;
 import com.s151044.discord.oscaif.utils.Messages;
-import net.dv8tion.jda.api.entities.GuildMessageChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.Command.*;

@@ -15,8 +15,7 @@ public class Course {
     private String desc = "";
     private String title = "";
     private int credits = -1;
-    private boolean isSsc = false;
-    private String ccType = "";
+    private CCType ccType = new CCType();
 
     public Course(String dept, String code) {
         this.dept = dept;
@@ -35,8 +34,7 @@ public class Course {
         credits = object.get("credits").getAsInt();
         desc = object.get("description").getAsString();
         if(object.has("ccType")) {
-            ccType = object.get("ccType").getAsString();
-            isSsc = object.get("isSsc").getAsBoolean();
+            ccType = new CCType(36, List.of(object.get("ccType").getAsString()), object.get("isSsc").getAsBoolean());
         }
     }
 
@@ -69,7 +67,7 @@ public class Course {
     }
 
     public boolean isSsc() {
-        return isSsc;
+        return ccType.isSsc;
     }
 
     @Override
@@ -85,7 +83,43 @@ public class Course {
         return Objects.hash(dept, code);
     }
 
-    public String getCcType() {
+    public CCType getCcType() {
         return ccType;
+    }
+
+    public static class CCType {
+        private int ccCredits = -1;
+        private List<String> category = new ArrayList<>();
+        private boolean isSsc = false;
+        private boolean invalid = false;
+        private CCType() {
+            invalid = true;
+        }
+        public CCType(int credits, List<String> category) {
+            this(credits, category, false);
+        }
+
+        public CCType(int credits, List<String> category, boolean isSsc) {
+            ccCredits = credits;
+            this.category.addAll(category);
+            this.isSsc = isSsc;
+        }
+
+        public int getCredits() {
+            return ccCredits;
+        }
+
+        public List<String> getCategories() {
+            return category;
+        }
+
+        public boolean isInvalid() {
+            return invalid;
+        }
+
+        @Override
+        public String toString() {
+            return ccCredits + "-credit Common Core in " + String.join(", ", category);
+        }
     }
 }

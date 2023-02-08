@@ -3,6 +3,7 @@ package com.s151044.discord.oscaif;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.s151044.discord.oscaif.commands.*;
+import com.s151044.discord.oscaif.commands.interactions.AgeSlash;
 import com.s151044.discord.oscaif.commands.interactions.course.CourseData;
 import com.s151044.discord.oscaif.commands.interactions.course.QueryCourse;
 import com.s151044.discord.oscaif.commands.interactions.MTREta;
@@ -20,7 +21,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.interaction.command.MessageContextInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -88,6 +89,7 @@ public class Main {
 
         slashList.addCommand(new MTREta(data, gson));
         slashList.addCommand(new QueryCourse(new CourseData(gson, Path.of("data/courses.json"))));
+        slashList.addCommand(new AgeSlash());
 
     }
     public static void shutdown(){
