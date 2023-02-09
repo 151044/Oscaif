@@ -3,6 +3,7 @@ package com.s151044.discord.oscaif.commands.interactions.course;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import org.jsoup.Jsoup;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,7 +27,7 @@ public class CourseData {
         });
     }
 
-    public CourseData(Gson gson, URL url) {
+    public CourseData(Jsoup jsoup, URL url) {
 
     }
 
@@ -52,9 +53,10 @@ public class CourseData {
                 .filter(course -> course.getCode().equals(code))
                 .findFirst();
     }
-    public List<Course> getByCcArea(String area, boolean sscOnly) {
+    public List<Course> getByCcArea(String area, int credits, boolean sscOnly) {
         return courses.stream()
-                .filter(course -> course.getCcTypes().stream().anyMatch(c -> c.getCategory().equals(area)))
+                .filter(course -> course.getCcTypes().stream().anyMatch(c -> c.getCategory().equals(area)
+                        && c.getCredits() == credits))
                 .filter(course -> !sscOnly || course.isSsc())
                 .collect(Collectors.toList());
     }

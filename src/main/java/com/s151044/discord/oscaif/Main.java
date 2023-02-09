@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.s151044.discord.oscaif.commands.*;
 import com.s151044.discord.oscaif.commands.interactions.AgeSlash;
+import com.s151044.discord.oscaif.commands.interactions.course.CCData;
 import com.s151044.discord.oscaif.commands.interactions.course.CourseData;
 import com.s151044.discord.oscaif.commands.interactions.course.QueryCourse;
 import com.s151044.discord.oscaif.commands.interactions.MTREta;
@@ -72,6 +73,7 @@ public class Main {
         }
 
         MTRData data = new MTRData();
+        CourseData courseData = new CourseData(gson, Path.of("data/courses.json"));
 
         cmd.addCommand(new OppositeDirection());
         cmd.addCommand(new Rickroll());
@@ -88,8 +90,9 @@ public class Main {
         cmd.addCommand(new Unexpected());
 
         slashList.addCommand(new MTREta(data, gson));
-        slashList.addCommand(new QueryCourse(new CourseData(gson, Path.of("data/courses.json"))));
+        slashList.addCommand(new QueryCourse(courseData));
         slashList.addCommand(new AgeSlash());
+        slashList.addCommand(new CCData(courseData));
 
     }
     public static void shutdown(){
